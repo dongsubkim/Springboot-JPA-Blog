@@ -30,7 +30,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // use strategy of DB connected to this project.
 	private int id; // sequence, auto_increment
 	
-	@Column(nullable=false,length=30)
+	@Column(nullable=false,length=30,unique=true)
 	private String username;
 	
 	@Column(nullable=false,length=100)

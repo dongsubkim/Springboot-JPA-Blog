@@ -1,16 +1,17 @@
 package com.dskim.blog.test;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,17 @@ public class DummyControllerTest {
 	@Autowired // Dependency Injection
 	private UserRepository userRepository;
 		
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+		try {
+			userRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			return "Fail to delete a user, cannot find user with id :" + id; 
+		}
+		
+		return "User Deleted id: "+id;
+	}
+	
 	// email, password
 	// json data in request body => converted to java object by MessageConvertor
 	@Transactional // don't need .save();, auto commit when method finish(dirty checking)
