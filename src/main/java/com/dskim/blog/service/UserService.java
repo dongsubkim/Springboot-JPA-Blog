@@ -37,5 +37,6 @@ public class UserService {
 		String encPassword = encoder.encode(rawPassword);
 		user.setPassword(encPassword);
 		user.setEmail(requestUser.getEmail());
+
 	}
 }
