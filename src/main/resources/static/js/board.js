@@ -6,6 +6,9 @@ let index ={
 		$("#btn-delete").on("click", ()=>{
 			this.deleteById();
 		}); 
+		$("#btn-update").on("click", ()=>{
+			this.update();
+		}); 
 
 	},
 	save:function() {
@@ -27,8 +30,29 @@ let index ={
 			alert(JSON.stringify(error)); 
 		});	
 	},
+	update:function() {
+		let id = $("#id").val();
+		
+		let data = {
+			title:$("#title").val(),
+			content:$("#content").val()
+		}
+
+		$.ajax({
+			type: "PUT",
+			url: "/api/board/" + id ,
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8", 
+			dataType: "json" 
+		}).done(function(resp){
+			alert("successfully updated");
+			location.href = "/";
+		}).fail(function(error){
+			alert(JSON.stringify(error)); 
+		});	
+	},
 	deleteById:function() {
-		var id = $("#id").text();
+		let id = $("#id").text();
 		console.log(id);
 		$.ajax({
 			type: "DELETE",

@@ -39,4 +39,13 @@ public class BoardService {
 	public void deletePost(int id) {
 		boardRepository.deleteById(id);
 	}
+
+	@Transactional
+	public void update(int id, Board requestBoard) {
+		Board board = boardRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("Fail to update post: cannot find id.");
+		});
+		board.setTitle(requestBoard.getTitle());
+		board.setContent(requestBoard.getContent());
+	}
 }
