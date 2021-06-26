@@ -2,13 +2,11 @@ package com.dskim.blog.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dskim.blog.dto.ResponseDto;
-import com.dskim.blog.model.RoleType;
 import com.dskim.blog.model.User;
 import com.dskim.blog.service.UserService;
 

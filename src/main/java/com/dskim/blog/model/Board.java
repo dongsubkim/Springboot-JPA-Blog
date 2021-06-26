@@ -14,7 +14,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
@@ -39,7 +38,6 @@ public class Board {
 	@Lob // large data
 	private String content; // summernote library (includes html tags)
 	
-	@ColumnDefault("0")
 	private int count; // view-count
 	
 	@ManyToOne(fetch=FetchType.EAGER) // Many = Board, User = One

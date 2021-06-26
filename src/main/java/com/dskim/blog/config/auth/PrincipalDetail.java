@@ -7,12 +7,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dskim.blog.model.User;
- 
+
+import lombok.Getter;
+
 // Spring Security intercepts login request and process.
 // On success, saves UserDetils object to spring security's session storage
-public class PrincipalDetail implements UserDetails{
+@Getter
+public class PrincipalDetail implements UserDetails {
 	private User user; // composition
-	
+
 	public PrincipalDetail(User user) {
 		this.user = user;
 	}
@@ -46,14 +49,15 @@ public class PrincipalDetail implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-	
-	// retuns authority list of the account  
+
+	// retuns authority list of the account
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collectors = new ArrayList<>();
-		collectors.add(()->{return "ROLE_"+user.getRole();}); // Must use prefix "ROLE_"
+		collectors.add(() -> {
+			return "ROLE_" + user.getRole();
+		}); // Must use prefix "ROLE_"
 		return collectors;
 	}
-
 
 }
