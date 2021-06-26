@@ -3,6 +3,9 @@ let index ={
 		$("#btn-save").on("click", ()=>{
 			this.save();
 		}); 
+		$("#btn-update").on("click", ()=>{
+			this.update();
+		}); 
 	},
 	save:function() {
 		//console.log("Save function called");
@@ -27,7 +30,27 @@ let index ={
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 		});	
+	},
+	update:function() {
+		let data = {
+			id:$("#id").val(),
+			password:$("#password").val(),
+			email:$("#email").val()
+		}
+		$.ajax({
+			type: "PUT",
+			url: "/user",
+			data: JSON.stringify(data), 
+			contentType: "application/json; charset=utf-8",
+			dataType: "json" 
+		}).done(function(resp){ 
+			alert("successfully updated");
+			location.href = "/";
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		});	
 	}
+
 }
 
 index.init();
