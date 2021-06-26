@@ -16,36 +16,31 @@ import com.dskim.blog.config.auth.PrincipalDetailService;
 
 @Configuration // bean register
 @EnableWebSecurity // register security filter
-@EnableGlobalMethodSecurity(prePostEnabled=true) // check authentication in advance of access to specific addresses
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
+@EnableGlobalMethodSecurity(prePostEnabled = true) // check authentication in advance of access to specific addresses
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	private PrincipalDetailService principalDetailService;
-	
+
 	@Bean // IoC
 	public BCryptPasswordEncoder encodePWD() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	// Security intercepts password and must know hashing algorithm so can compare hashed password in db
+
+	// Security intercepts password and must know hashing algorithm so can compare
+	// hashed password in db
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(principalDetailService).passwordEncoder(encodePWD());
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.csrf().disable() // csrf token: disable while testing
-			.authorizeRequests()
-				.antMatchers("/", "/auth/**", "/js/**", "/css/**", "/image/**")
-				.permitAll()
-				.anyRequest()
-				.authenticated()
-			.and()
-				.formLogin() 
-				.loginPage("/auth/loginForm")
-				.loginProcessingUrl("/auth/loginProc") // Spring Security intercepts login request on this address and process login
-				.defaultSuccessUrl("/"); 
+		http.csrf().disable() // csrf token: disable while testing
+				.authorizeRequests().antMatchers("/", "/auth/**", "/js/**", "/css/**", "/image/**", "/dummy/**")
+				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/auth/loginForm")
+				.loginProcessingUrl("/auth/loginProc") // Spring Security intercepts login request on this address and
+														// process login
+				.defaultSuccessUrl("/");
 	}
 }
