@@ -25,25 +25,25 @@ import lombok.NoArgsConstructor;
 @Entity // MySQL table creates User table based on this class
 // @DynamicInsert // removes fields that have null value on insert statement
 public class User {
-	
+
 	@Id // Primary Key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // use strategy of DB connected to this project.
 	private int id; // sequence, auto_increment
-	
-	@Column(nullable=false,length=30,unique=true)
+
+	@Column(nullable = false, length = 30, unique = true)
 	private String username;
-	
-	@Column(nullable=false,length=100)
+
+	@Column(nullable = false, length = 100)
 	private String password;
-	
-	@Column(nullable=false,length=50)
+
+	@Column(nullable = false, length = 50)
 	private String email;
-	
-	//@ColumnDefault("'user'")
+
+	// @ColumnDefault("'user'")
 	// DB has no RoleType
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // should be enum; // ADMIN, USER
-	
+
 	@CreationTimestamp // auto insert timestamp
 	private Timestamp createDate;
 }
