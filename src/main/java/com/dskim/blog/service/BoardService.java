@@ -23,13 +23,20 @@ public class BoardService {
 		boardRepository.save(board);
 	}
 
+	@Transactional(readOnly = true)
 	public Page<Board> postList(Pageable pageable) {
 		return boardRepository.findAll(pageable);
 	}
 
+	@Transactional(readOnly = true)
 	public Board viewPost(int id) {
 		return boardRepository.findById(id).orElseThrow(() -> {
 			return new IllegalArgumentException("Fail to load post: cannot find id.");
 		});
+	}
+
+	@Transactional
+	public void deletePost(int id) {
+		boardRepository.deleteById(id);
 	}
 }

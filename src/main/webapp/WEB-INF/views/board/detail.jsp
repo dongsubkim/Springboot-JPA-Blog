@@ -5,8 +5,15 @@
 <div class="container">
 	<button class="btn btn-secondary" onclick="history.back()">Back</button>
 	<button id="btn-update" class="btn btn-warning">Edit</button>
-	<button id="btn-delete" class="btn btn-danger">Delete</button>
+	<c:if test="${board.user.id == principal.user.id}">
+		<button id="btn-delete" class="btn btn-danger">Delete</button>
+	</c:if>
 	<br /><br />
+	<div>
+		Post No: <span id="id"><i>${board.id} </i></span>
+		Author: <span><i>${board.user.username} </i></span>
+	</div>
+	<br />
 	<div>
 		<h3>${board.title }</h3>
 	</div>
