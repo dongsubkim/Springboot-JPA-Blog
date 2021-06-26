@@ -27,4 +27,9 @@ public class BoardService {
 		return boardRepository.findAll(pageable);
 	}
 
+	public Board viewPost(int id) {
+		return boardRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("Fail to load post: cannot find id.");
+		});
+	}
 }
