@@ -18,6 +18,14 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
+	@Transactional(readOnly = true)
+	public User findUser(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
+		return user;
+	}
+
 	@Transactional
 	public void join(User user) {
 		String rawPassword = user.getPassword();
@@ -33,10 +41,13 @@ public class UserService {
 		User user = userRepository.findById(requestUser.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("Fail to find user.");
 		});
-		String rawPassword = requestUser.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		user.setPassword(encPassword);
-		user.setEmail(requestUser.getEmail());
 
+		// Validation check: only no auth can edit user info
+		if (user.getOauth() == null || user.getOauth().equals("")) {
+			String rawPassword = requestUser.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			user.setPassword(encPassword);
+			user.setEmail(requestUser.getEmail());
+		}
 	}
 }

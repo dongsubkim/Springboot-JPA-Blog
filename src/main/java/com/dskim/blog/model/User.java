@@ -30,7 +30,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // use strategy of DB connected to this project.
 	private int id; // sequence, auto_increment
 
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username;
 
 	@Column(nullable = false, length = 100)
@@ -43,6 +43,8 @@ public class User {
 	// DB has no RoleType
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // should be enum; // ADMIN, USER
+
+	private String oauth; // kakao, google, facebook
 
 	@CreationTimestamp // auto insert timestamp
 	private Timestamp createDate;
