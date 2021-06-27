@@ -3,6 +3,7 @@ package com.dskim.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +48,8 @@ public class Board {
 	@JoinColumn(name = "userId")
 	private User user; // DB cannot save object, use FK. Java can save object
 
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // mappedBy means `I am not FK, do not create column`
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // mappedBy means `I am not
+																							// FK, do not create column`
 	@JsonIgnoreProperties({ "board" }) // 무한 참조 방지
 	@OrderBy("id desc")
 	private List<Reply> replies;

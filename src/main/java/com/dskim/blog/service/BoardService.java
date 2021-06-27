@@ -1,6 +1,5 @@
 package com.dskim.blog.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +11,25 @@ import com.dskim.blog.model.User;
 import com.dskim.blog.repository.BoardRepository;
 import com.dskim.blog.repository.ReplyRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service // Spring component scans > register to Bean: IoC
+@RequiredArgsConstructor
 public class BoardService {
 
-	@Autowired
-	private BoardRepository boardRepository;
+	private final BoardRepository boardRepository;
+	private final ReplyRepository replyRepository;
 
-	@Autowired
-	private ReplyRepository replyRepository;
+//	public BoardService(BoardRepository bRepo, ReplyRepository rRepo) {
+//		this.boardRepository = bRepo;
+//		this.replyRepository = rRepo;
+//	}
+
+//	@Autowired
+//	private BoardRepository boardRepository;
+//
+//	@Autowired
+//	private ReplyRepository replyRepository;
 
 	@Transactional
 	public void post(Board board, User user) {

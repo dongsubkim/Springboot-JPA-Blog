@@ -24,9 +24,13 @@ let index ={
 			contentType: "application/json; charset=utf-8", // request body data type(MIME)
 			dataType: "json" // response type; response is always String(byte); but if it looks like json => convert to js object
 		}).done(function(resp){
-			alert("successfully joined");
+			if (resp.status == 500) {
+				alert("회원가입에 실패하였습니다.");
+			} else {
+				alert("successfully joined");
+				location.href = "/";	
+			}
 			// console.log(resp)
-			location.href = "/";
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 		});	
