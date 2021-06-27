@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class UserController {
 
-	@Value("${dskim.key}")
+	@Value("${dskim.key}") // Secret key, never expose
 	private String secretKey;
 
 	@Autowired
