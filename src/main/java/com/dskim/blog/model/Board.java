@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -48,6 +49,7 @@ public class Board {
 
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // mappedBy means `I am not FK, do not create column`
 	@JsonIgnoreProperties({ "board" }) // 무한 참조 방지
+	@OrderBy("id desc")
 	private List<Reply> replies;
 
 	@CreationTimestamp

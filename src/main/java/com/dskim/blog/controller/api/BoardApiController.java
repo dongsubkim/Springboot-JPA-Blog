@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dskim.blog.config.auth.PrincipalDetail;
 import com.dskim.blog.dto.ResponseDto;
 import com.dskim.blog.model.Board;
+import com.dskim.blog.model.Reply;
 import com.dskim.blog.service.BoardService;
 
 @RestController
@@ -38,4 +39,12 @@ public class BoardApiController {
 		boardService.update(id, board);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
+			@AuthenticationPrincipal PrincipalDetail principal) {
+		boardService.postReply(principal.getUser(), boardId, reply);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+
 }

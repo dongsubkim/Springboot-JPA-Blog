@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dskim.blog.model.Board;
+import com.dskim.blog.model.Reply;
 import com.dskim.blog.model.User;
 import com.dskim.blog.repository.BoardRepository;
+import com.dskim.blog.repository.ReplyRepository;
 
 @Service // Spring component scans > register to Bean: IoC
 public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+
+	@Autowired
+	private ReplyRepository replyRepository;
 
 	@Transactional
 	public void post(Board board, User user) {
@@ -47,5 +52,17 @@ public class BoardService {
 		});
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
+	}
+
+	@Transactional
+	public void postReply(User user, int boardId, Reply requestReply) {
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("Fail to post reply: cannot find board id.");
+		});
+
+		requestReply.setUser(user);
+		requestReply.setBoard(board);
+
+		replyRepository.save(requestReply);
 	}
 }
