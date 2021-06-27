@@ -6,17 +6,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dskim.blog.dto.ReplySaveRequestDto;
 import com.dskim.blog.model.Board;
 import com.dskim.blog.model.Reply;
 import com.dskim.blog.model.User;
 import com.dskim.blog.repository.BoardRepository;
 import com.dskim.blog.repository.ReplyRepository;
+import com.dskim.blog.repository.UserRepository;
 
 @Service // Spring component scans > register to Bean: IoC
 public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private ReplyRepository replyRepository;
@@ -55,14 +60,19 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void postReply(User user, int boardId, Reply requestReply) {
-		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+	public void postReply(ReplySaveRequestDto replySaveRequestDto) {
+		User user = userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(() -> {
 			return new IllegalArgumentException("Fail to post reply: cannot find board id.");
 		});
 
-		requestReply.setUser(user);
-		requestReply.setBoard(board);
+		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(() -> {
+			return new IllegalArgumentException("Fail to post reply: cannot find board id.");
+		});
 
-		replyRepository.save(requestReply);
+		Reply reply = Reply.builder().user(user).board(board).content(replySaveRequestDto.getContent()).build();
+
+//		Reply reply = new Reply();
+//		reply.update(user, board, replySaveRequestDto.getContent());
+		replyRepository.save(reply);
 	}
 }

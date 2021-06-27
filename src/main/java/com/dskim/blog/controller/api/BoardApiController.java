@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dskim.blog.config.auth.PrincipalDetail;
+import com.dskim.blog.dto.ReplySaveRequestDto;
 import com.dskim.blog.dto.ResponseDto;
 import com.dskim.blog.model.Board;
-import com.dskim.blog.model.Reply;
 import com.dskim.blog.service.BoardService;
 
 @RestController
@@ -40,10 +40,10 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 
+	// 데이터를 받을 때 컨트롤러에서 DTO를 만들어서 받는게 좋다.
 	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
-			@AuthenticationPrincipal PrincipalDetail principal) {
-		boardService.postReply(principal.getUser(), boardId, reply);
+	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+		boardService.postReply(replySaveRequestDto);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 

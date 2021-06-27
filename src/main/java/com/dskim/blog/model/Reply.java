@@ -25,20 +25,26 @@ import lombok.NoArgsConstructor;
 public class Reply {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) // auto_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
 	private int id;
-	
-	@Column(nullable=false,length=200)
+
+	@Column(nullable = false, length = 200)
 	private String content;
-	
+
 	@ManyToOne
-	@JoinColumn(name="boardId")
+	@JoinColumn(name = "boardId")
 	private Board board;
-	
+
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	@CreationTimestamp
 	private Timestamp createDate;
+
+//	public void update(User user, Board board, String content) {
+//		setUser(user);
+//		setBoard(board);
+//		setContent(content);
+//	}
 }
